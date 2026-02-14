@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Be My Valentine ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+:root{
+  --bg1:#ffdde1;
+  --bg2:#fce7f3;
+  --accent:#ff4d6d;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  font-family:system-ui,-apple-system,"Cambria",Cambria;
+}
+
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  overflow:hidden;
+}
+
+/* FLOATING HEARTS */
+.hearts-bg{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+
+.heart{
+  position:absolute;
+  bottom:-40px;
+  animation:floatUp linear infinite;
+  opacity:.85;
+}
+
+@keyframes floatUp{
+  from{ transform:translateY(0) scale(1); opacity:0; }
+  10%{ opacity:.85 }
+  to{ transform:translateY(-110vh) scale(1.3); opacity:0; }
+}
+
+/* CARD */
+.card{
+  width: min(576px, 92vw);
+  height: min(576px, 92vw);
+  max-height: 85vh;          /* CRITICAL for Android */
+  background: rgba(255,255,255,.9);
+  border-radius: 22px;
+  padding: 20px;
+  border: 4px solid black;
+  box-shadow: 0 12px 35px rgba(0,0,0,.12);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+@media(max-width:480px){
+  .card{ width:90vw; height:90vw; }
+}
+
+ h1{
+    font-size: 1.4rem;
+    transform: translateY(-60px);
+}
+
+.page img{
+  max-width: 100%;
+  max-height: 32vh;      /* Android-safe */
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  animation: floatGif 2s ease-in-out infinite;
+}
+
+/* Desktop only */
+@media (min-width: 900px){
+  .page img{
+    width: 420px;        /* ⬅ bigger on desktop */
+    max-height: 520px;   /* ⬅ keeps proportions */
+  }
+}
+
+  .area{
+    height: 140px;
+}
+
+.page{
+  display:none;
+  animation:fade .5s ease;
+}
+
+.page.active{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+@keyframes fade{
+  from{ opacity:0; transform:scale(.97) }
+  to{ opacity:1; transform:scale(1) }
+}
+
+h1{
+  font-family:'Pacifico', cursive;
+  color:#ff416c;
+  font-size:1.8rem;
+  margin:10px 0;
+  transform: translateY(-80px);
+  text-shadow:0 2px 6px rgba(255,65,108,0.4);
+}
+
+/* GIF */
+.page img{
+  width: min(260px, 70vw);   /* desktop vs mobile balance */
+  max-height: 40vh;         /* prevents tall GIF overflow */
+  height: auto;
+  object-fit: contain;
+  animation: floatGif 2s ease-in-out infinite;
+}
+
+@keyframes floatGif{
+  0%,100%{ transform: translateY(21px); }
+  50%{ transform: translateY(21px); }
+}
+
+/* BUTTON AREA */
+.area{
+  position:relative;
+  height:160px;
+  width:100%;
+}
+
+.btn{
+  border:0;
+  padding:12px 22px;
+  border-radius:999px;
+  font-weight:700;
+  cursor:pointer;
+  min-width:120px;
+  height:42px;
+  font-size:1rem;
+}
+
+#yesBtn{
+  background:linear-gradient(90deg,#ff6b81,#ff416c);
+  color:white;
+}
+
+#noBtn{
+  position:absolute;
+  background:#fff;
+  border:2px solid #ff9fb4;
+  color:var(--accent);
+  transition:left .3s ease, top .3s ease;
+}
+
+.next-btn{
+  display:none;
+  position:absolute;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#000;
+  color:#fff;
+}
+
+.restart-btn{
+  position:absolute;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ff416c;
+  color:#fff;
+}
+
+canvas{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="song/HER.mp3" type="audio/mpeg">
+</audio>
+
+<div class="hearts-bg" id="heartsBg"></div>
+
+<div class="card">
+
+<div class="page active">
+  <h1>Coco, Will You Be My Valentine 💖🥹?</h1>
+
+  <div class="area" id="playArea">
+    <button id="yesBtn" class="btn">YES</button>
+    <button id="noBtn" class="btn">NO</button>
+  </div>
+  <img src="./graph/heart.gif">
+</div>
+
+<div class="page">
+<h1>Happy Rose Day Meri Phool 🌹💫</h1>
+<img src="./graph/rose.gif">
+</div>
+
+<div class="page">
+<h1>Happy Propose Day Cutie 💍💕</h1>
+<img src="./graph/propose.gif">
+</div>
+
+<div class="page">
+<h1>Happy Chocolate Day Meri Mitthu 🍫🌸</h1>
+<img src="./graph/choco.gif">
+</div>
+
+<div class="page">
+<h1>Happy Teddy Day Meri Gudiyaa 🧸💌</h1>
+<img src="./graph/teddy.gif">
+</div>
+
+<div class="page">
+<h1>Happy Promise Day 🤞❣️</h1>
+<img src="./graph/promise.gif">
+<img src="./graph/promise2.gif">
+</div>
+
+<div class="page">
+<h1>Happy Hug Day Meri Panda 🐼🤗</h1>
+<img src="./graph/hug.gif">
+</div>
+
+<div class="page">
+<h1>Happy Kiss Day Meri Misri 😚💝</h1>
+<img src="./graph/kiss.gif">
+</div>
+
+<div class="page">
+  <h1>Happy Valentine’s Day Khushi ❤️🥹</h1>
+  <img src="./graph/love.gif">
+  <button id="restartBtn" class="btn restart-btn">I Love You 💗💍✨</button>
+</div>
+
+<button id="nextBtn" class="btn next-btn">Next ➜</button>
+
+</div>
+
+<script>
+const bgMusic = document.getElementById("bgMusic");
+const pages = document.querySelectorAll('.page');
+const nextBtn = document.getElementById('nextBtn');
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const area = document.getElementById('playArea');
+const heartsBg = document.getElementById('heartsBg');
+const restartBtn = document.getElementById('restartBtn');
+
+let currentPage = 0;
+let heartInterval = null;
+let escaping = false;
+
+function playMusic(){
+  bgMusic.volume = 0.6;
+  bgMusic.play().catch(()=>{});
+}
+
+function spawnHeart(){
+  const h=document.createElement('div');
+  h.className='heart';
+  h.textContent='❤️';
+  h.style.left=Math.random()*100+'vw';
+  h.style.fontSize=(14+Math.random()*26)+'px';
+  h.style.animationDuration=(6+Math.random()*6)+'s';
+  heartsBg.appendChild(h);
+  setTimeout(()=>h.remove(),12000);
+}
+
+function nextPage(){
+  pages[currentPage].classList.remove('active');
+  currentPage++;
+  pages[currentPage].classList.add('active');
+  nextBtn.style.display = currentPage < pages.length-1 ? 'block' : 'none';
+}
+
+yesBtn.addEventListener('click',()=>{
+  goFullscreen();
+  playMusic();
+  if(!heartInterval) heartInterval=setInterval(spawnHeart,30);
+  setTimeout(nextPage,600);
+});
+
+nextBtn.addEventListener('click',nextPage);
+
+restartBtn.addEventListener('click',()=>{
+  clearInterval(heartInterval);
+  heartInterval=null;
+  heartsBg.innerHTML='';
+  bgMusic.pause();
+  bgMusic.currentTime=0;
+  pages.forEach(p=>p.classList.remove('active'));
+  currentPage=0;
+  pages[0].classList.add('active');
+  nextBtn.style.display='none';
+});
+
+function placeButtons(){
+  requestAnimationFrame(()=>{
+    const r=area.getBoundingClientRect();
+    yesBtn.style.position='absolute';
+    yesBtn.style.left=(r.width/2-yesBtn.offsetWidth-10)+'px';
+    yesBtn.style.top=(r.height/2-yesBtn.offsetHeight/2)+'px';
+    noBtn.style.left=(r.width/2+10)+'px';
+    noBtn.style.top=(r.height/2-noBtn.offsetHeight/2)+'px';
+  });
+}
+
+window.addEventListener('load',placeButtons);
+window.addEventListener('resize',placeButtons);
+
+area.addEventListener('mousemove',()=>{
+  if(escaping) return;
+  escaping=true;
+  const r=area.getBoundingClientRect();
+  noBtn.style.left=Math.random()*(r.width-noBtn.offsetWidth)+'px';
+  noBtn.style.top=Math.random()*(r.height-noBtn.offsetHeight)+'px';
+  setTimeout(()=>escaping=false,300);
+});
+
+function goFullscreen() {
+  const el = document.documentElement;
+
+  if (el.requestFullscreen) {
+    el.requestFullscreen();
+  } else if (el.webkitRequestFullscreen) {
+    el.webkitRequestFullscreen(); // Safari
+  } else if (el.msRequestFullscreen) {
+    el.msRequestFullscreen(); // IE
+  }
+}
+
+</script>
+
+</body>
+</html>
